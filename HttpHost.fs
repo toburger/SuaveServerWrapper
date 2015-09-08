@@ -26,8 +26,12 @@ type public HttpHost(port: int) =
     let toSystemNetRequest (r: HttpRequest) =
         let httpMethod = HttpMethod(r.``method``.ToString())
         let s = new HttpRequestMessage (httpMethod, r.url)
-        r.headers |> List.iter (fun (k, v) -> s.Headers.Add (k, v))
+        let isContentHeader =
+            let contentHeaders = [|"Content-Disposition"; "Content-Encoding"; "Content-Language"; "Content-Length"; "Content-Location"; "Content-MD5"; "Content-Range"; "Content-Type"|]
+            fun (h, _) -> contentHeaders |> Array.exists (fun v -> (v.Equals(h, StringComparison.OrdinalIgnoreCase)))
+        r.headers |> List.filter (fun h -> not <| isContentHeader h) |> List.iter (fun (k, v) -> s.Headers.Add (k, v))
         s.Content <- new ByteArrayContent(r.rawForm)
+        r.headers |> List.filter isContentHeader |> List.iter (fun (k, v) -> s.Content.Headers.Add (k, v))
         s
 
     member this.Start(a: Func<HttpRequestMessage, HttpResponseMessage>, ctx: CancellationTokenSource) =
