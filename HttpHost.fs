@@ -20,7 +20,7 @@ type public HttpHost(port: int) =
           headers = m.Headers
             |> Seq.map (fun pair -> pair.Key, pair.Value |> Seq.head)
             |> Seq.toList
-          content = Bytes (m.Content.ReadAsByteArrayAsync() |> Async.AwaitTask |> Async.RunSynchronously)
+          content = if m.Content = null then Bytes[||] else Bytes (m.Content.ReadAsByteArrayAsync() |> Async.AwaitTask |> Async.RunSynchronously)
           writePreamble = true }
 
     let toSystemNetRequest (r: HttpRequest) =
