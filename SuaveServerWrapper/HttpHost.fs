@@ -16,8 +16,6 @@ type public HttpHost(port: int) =
     let port = Sockets.Port.Parse (port.ToString())
     let glock = Object
     let cancellationTokenSource = new CancellationTokenSource()
-    let response result : WebPart = (fun ctx ->
-        {ctx with response = result} |> succeed)
 
     let toSuaveRespnse (m: HttpResponseMessage) = 
         { status = (HttpCode.TryParse (m.StatusCode |> int)).Value
@@ -40,8 +38,13 @@ type public HttpHost(port: int) =
         s
 
     member this.OpenAsync (a: Func<HttpRequestMessage, Task<HttpResponseMessage>>): Task =
-        let handleAll = request (fun r ->
-            r |> toSystemNetRequest |> a.Invoke |> Async.AwaitTask |> Async.RunSynchronously |> toSuaveRespnse |> response)
+        let handleAll : WebPart =
+            fun (ctx: HttpContext) ->
+                async {
+                    let! res = ctx.request |> toSystemNetRequest |> a.Invoke |> Async.AwaitTask
+                    let result = res |> toSuaveRespnse
+                    return Some { ctx with response = result }
+                }
 
         let app =
             choose [

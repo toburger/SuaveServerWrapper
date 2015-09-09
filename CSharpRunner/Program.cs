@@ -20,7 +20,6 @@ namespace CSharpRunner
                 {
                     Console.WriteLine(r.RequestUri);
                     Console.WriteLine(r.Content.ReadAsStringAsync().Result);
-
                     var ss = await Task.FromResult(new HttpResponseMessage
                     {
                         StatusCode = System.Net.HttpStatusCode.OK,
