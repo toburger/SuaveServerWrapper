@@ -5,15 +5,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>a870a4e2-e9f8-4afd-afce-5fa9e878c52c</ProjectGuid>
+    <ProjectGuid>b83d3ece-6f42-4ca9-a73e-6249881cc2e5</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>SuaveServer</RootNamespace>
-    <AssemblyName>SuaveServer</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
+    <RootNamespace>SuaveServerWrapper</RootNamespace>
+    <AssemblyName>SuaveServerWrapper</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Name>SuaveServer</Name>
-    <TargetFrameworkProfile />
+    <Name>SuaveServerWrapper</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,7 +22,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\SuaveServer.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\SuaveServerWrapper.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,7 +31,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\SuaveServer.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\SuaveServerWrapper.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
@@ -52,13 +51,13 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="HttpHost.fs" />
     <Content Include="packages.config" />
     <Content Include="app.config" />
+    <Compile Include="HttpHost.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">
-      <HintPath>..\packages\FSharp.Core.4.0.0.1\lib\net40\FSharp.Core.dll</HintPath>
+      <HintPath>..\packages\FSharp.Core.3.1.2.5\lib\net40\FSharp.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FsPickler">
@@ -67,7 +66,7 @@
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="Suave">
-      <HintPath>..\packages\Suave.0.31.1\lib\net40\Suave.dll</HintPath>
+      <HintPath>..\packages\Suave.0.31.2\lib\net40\Suave.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

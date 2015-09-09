@@ -1,4 +1,4 @@
-﻿namespace SuaveServer.AssemblyInfo
+﻿namespace SuaveServerWrapper.AssemblyInfo
 
 open System.Reflection
 open System.Runtime.CompilerServices
@@ -7,11 +7,11 @@ open System.Runtime.InteropServices
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[<assembly: AssemblyTitle("SuaveServer")>]
+[<assembly: AssemblyTitle("SuaveServerWrapper")>]
 [<assembly: AssemblyDescription("")>]
 [<assembly: AssemblyConfiguration("")>]
 [<assembly: AssemblyCompany("")>]
-[<assembly: AssemblyProduct("SuaveServer")>]
+[<assembly: AssemblyProduct("SuaveServerWrapper")>]
 [<assembly: AssemblyCopyright("Copyright ©  2015")>]
 [<assembly: AssemblyTrademark("")>]
 [<assembly: AssemblyCulture("")>]
@@ -22,7 +22,7 @@ open System.Runtime.InteropServices
 [<assembly: ComVisible(false)>]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[<assembly: Guid("a870a4e2-e9f8-4afd-afce-5fa9e878c52c")>]
+[<assembly: Guid("b83d3ece-6f42-4ca9-a73e-6249881cc2e5")>]
 
 // Version information for an assembly consists of the following four values:
 // 

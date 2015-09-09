@@ -1,4 +1,4 @@
-﻿namespace SuaveServer
+﻿namespace SuaveServerWrapper
 open Suave
 open Suave.Http
 open Suave.Http.Applicatives
