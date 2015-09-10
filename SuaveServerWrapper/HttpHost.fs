@@ -5,6 +5,7 @@ open Suave.Http.Applicatives
 open Suave.Types
 open Suave.Web
 open System
+open System.Collections.Generic
 open System.Threading
 open System.Threading.Tasks
 open System.Net
@@ -20,6 +21,7 @@ type public HttpHost(port: int) =
     let toSuaveRespnse (m: HttpResponseMessage) = 
         { status = (HttpCode.TryParse (m.StatusCode |> int)).Value
           headers = m.Headers
+            |> if m.Content <> null then Seq.append m.Content.Headers else Seq.append Seq.empty<KeyValuePair<string, IEnumerable<string>>>
             |> Seq.map (fun pair -> pair.Key, pair.Value |> Seq.head)
             |> Seq.toList
           content = if m.Content = null then Bytes[||] else Bytes (m.Content.ReadAsByteArrayAsync() |> Async.AwaitTask |> Async.RunSynchronously)
