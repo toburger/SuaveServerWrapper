@@ -18,8 +18,9 @@ type public HttpHost(port: int) =
     let glock = Object
     let cancellationTokenSource = new CancellationTokenSource()
 
-    let toSuaveRespnse (m: HttpResponseMessage) =
+    let toSuaveRespnse (am: Async<HttpResponseMessage>) =
         async {
+            let! m = am
             let! content = if m.Content = null then async { return [||] } else (m.Content.ReadAsByteArrayAsync() |> Async.AwaitTask)
             return { status = (HttpCode.TryParse (m.StatusCode |> int)).Value
                      headers = m.Headers
@@ -45,8 +46,7 @@ type public HttpHost(port: int) =
     member this.OpenAsync (a: Func<HttpRequestMessage, Task<HttpResponseMessage>>): Task =
         let handleAll (ctx: HttpContext) =
             async {
-                let! res = ctx.request |> toSystemNetRequest |> a.Invoke |> Async.AwaitTask
-                let! result = res |> toSuaveRespnse
+                let! result = ctx.request |> toSystemNetRequest |> a.Invoke |> Async.AwaitTask |> toSuaveRespnse
                 return Some { ctx with response = result }
             }
 
