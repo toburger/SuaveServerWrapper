@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SuaveServerWrapper", "SuaveServerWrapper\SuaveServerWrapper.fsproj", "{B83D3ECE-6F42-4CA9-A73E-6249881CC2E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpRunner", "CSharpRunner\CSharpRunner.csproj", "{66D1B688-B368-4716-8871-783492843435}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuaveServerWrapper.Tests", "SuaveServerWrapper.Tests\SuaveServerWrapper.Tests.csproj", "{78A1ACDF-97DD-4FC1-AD3B-0F4638A24A1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{B83D3ECE-6F42-4CA9-A73E-6249881CC2E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B83D3ECE-6F42-4CA9-A73E-6249881CC2E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B83D3ECE-6F42-4CA9-A73E-6249881CC2E5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{66D1B688-B368-4716-8871-783492843435}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{66D1B688-B368-4716-8871-783492843435}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{66D1B688-B368-4716-8871-783492843435}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{66D1B688-B368-4716-8871-783492843435}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78A1ACDF-97DD-4FC1-AD3B-0F4638A24A1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78A1ACDF-97DD-4FC1-AD3B-0F4638A24A1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78A1ACDF-97DD-4FC1-AD3B-0F4638A24A1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78A1ACDF-97DD-4FC1-AD3B-0F4638A24A1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
