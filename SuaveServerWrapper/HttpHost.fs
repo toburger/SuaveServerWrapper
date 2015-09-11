@@ -18,14 +18,17 @@ type public HttpHost(port: int) =
     let glock = Object
     let cancellationTokenSource = new CancellationTokenSource()
 
-    let toSuaveRespnse (m: HttpResponseMessage) = 
-        { status = (HttpCode.TryParse (m.StatusCode |> int)).Value
-          headers = m.Headers
-            |> if m.Content <> null then Seq.append m.Content.Headers else Seq.append Seq.empty<KeyValuePair<string, IEnumerable<string>>>
-            |> Seq.map (fun pair -> pair.Key, pair.Value |> Seq.head)
-            |> Seq.toList
-          content = if m.Content = null then Bytes[||] else Bytes (m.Content.ReadAsByteArrayAsync() |> Async.AwaitTask |> Async.RunSynchronously)
-          writePreamble = true }
+    let toSuaveRespnse (m: HttpResponseMessage) =
+        async {
+            let! content = if m.Content = null then async { return [||] } else (m.Content.ReadAsByteArrayAsync() |> Async.AwaitTask)
+            return { status = (HttpCode.TryParse (m.StatusCode |> int)).Value
+                     headers = m.Headers
+                     |> if m.Content <> null then Seq.append m.Content.Headers else Seq.append Seq.empty<KeyValuePair<string, IEnumerable<string>>>
+                     |> Seq.map (fun pair -> pair.Key, pair.Value |> Seq.head)
+                     |> Seq.toList
+                     content = Bytes content
+                     writePreamble = true }
+        }
 
     let toSystemNetRequest (r: HttpRequest) =
         let httpMethod = HttpMethod(r.``method``.ToString())
@@ -40,13 +43,12 @@ type public HttpHost(port: int) =
         s
 
     member this.OpenAsync (a: Func<HttpRequestMessage, Task<HttpResponseMessage>>): Task =
-        let handleAll : WebPart =
-            fun (ctx: HttpContext) ->
-                async {
-                    let! res = ctx.request |> toSystemNetRequest |> a.Invoke |> Async.AwaitTask
-                    let result = res |> toSuaveRespnse
-                    return Some { ctx with response = result }
-                }
+        let handleAll (ctx: HttpContext) =
+            async {
+                let! res = ctx.request |> toSystemNetRequest |> a.Invoke |> Async.AwaitTask
+                let! result = res |> toSuaveRespnse
+                return Some { ctx with response = result }
+            }
 
         let app =
             choose [
