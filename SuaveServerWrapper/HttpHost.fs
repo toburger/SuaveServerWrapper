@@ -21,7 +21,7 @@ type public HttpHost(port: int) =
         async {
             let! m = am
             let! content = if m.Content = null then async { return [||] } else (m.Content.ReadAsByteArrayAsync() |> Async.AwaitTask)
-            return { status = match HttpCode.tryParse (m.StatusCode |> int) with | Choice1Of2 s -> s | Choice2Of2 _ -> HttpCode.HTTP_500
+            return { status = { code = int m.StatusCode; reason = m.ReasonPhrase }
                      headers = m.Headers
                      |> if m.Content <> null then Seq.append m.Content.Headers else Seq.append Seq.empty<KeyValuePair<string, IEnumerable<string>>>
                      |> Seq.map (fun pair -> pair.Key, pair.Value |> Seq.head)
@@ -49,7 +49,7 @@ type public HttpHost(port: int) =
                 return Some { ctx with response = result }
             }
 
-        let config = { defaultConfig with bindings = [ HttpBinding.mk HTTP IPAddress.Loopback port ] }
+        let config = { defaultConfig with bindings = [ HttpBinding.create HTTP IPAddress.Loopback port ] }
         lock glock (fun () -> 
             if cancellationTokenSource.IsCancellationRequested then raise <| ServerHasBeenAlreadyStopped
             let listening, server = startWebServerAsync config handleAll
